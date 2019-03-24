@@ -1,0 +1,25 @@
+language: rust
+dist: xenial
+rust:
+  - nightly
+addons:
+  apt:
+    packages:
+      - musl-tools
+matrix:
+  fast_finish: true
+  include:
+    - os: linux
+      rust: nightly
+      env: TARGET=x86_64-unknown-linux-musl
+
+install: rustup target add $TARGET
+before_deploy: cargo build --release --target=$TARGET
+deploy:
+  provider: releases
+  api_key:
+    secure: uffISG/wEnKN+v2GYtiO7i/oPPjz07HTChaa+OyubxtfMYY+w3HRBXxQXZUtmtw/fFobiaGwq5JxDNSPtJgbN4QRUDM9SmUYxvbNmFdPtCklbYNWb//iFJUUkVqSc9G41OGeu0Mguo0+x6Vp+7bt94Cpl0KOdk+6bKO8JOpfznFqKT7uv62xEM0JCQppNsqS1PqAcUNXt46xBC9KSa2NSmGHin+RyEXDR1Tzc0KRA0lrsGrVAO/sjI4F75la8kU175zuYdorCNhnsoEN6ExaaGdiuJ3DqjjnYubxiRMjYN0pqkq4m6Dibe879AbeCoasby6MfgoHbmqpjLHo7vKqs/01q+Sc6HKAkWZ0z2qk5EsyyyoTXvTPJ2B3y0JadOHUJAILeqTE/bdAaF2e6dr+ILOwefcrAn/Hb+Vp0b8N5WIvulBolVfFnQl1pvOhpi15iplcLYKDbXYU8C/8bcrie3NinKpsTRxze7QkoY/MU+/otqe2zGS0D4FQd2cmY3eJasxYUdWdWjWyU8PviRh82NA7h5K08EZVWdbuFOgB2YN+v6VztcH5GIuH8oYf8x1rRRZXTqugwFopBCJRXE6gKYpz0twukg9hUyUJ67RcdIZI2cBJ8JXJvDUX7FYC45YjsMF8prNnrv2B+QEprzOxb+2QVH0sIvb0ref0+bqDPlQ=
+  skip_cleanup: true
+  file: target/$TARGET/release/json-to-sh
+  on:
+    repo: mlvzk/json-to-sh
