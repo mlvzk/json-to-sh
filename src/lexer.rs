@@ -82,7 +82,7 @@ fn eat_string(chars: &mut Peekable<Chars>) -> Option<String> {
 
     while let Some(c) = chars.next() {
         match c {
-            '"' => return Some(s.to_string()),
+            '"' => return Some(s.to_owned()),
             '\\' => match chars.next()? {
                 '\\' => s.push('\\'),
                 '/' => s.push('/'),
@@ -103,7 +103,7 @@ fn eat_string(chars: &mut Peekable<Chars>) -> Option<String> {
         }
     }
 
-    Some(s.to_string())
+    Some(s.to_owned())
 }
 
 fn eat_number(chars: &mut Peekable<Chars>) -> Option<f64> {
