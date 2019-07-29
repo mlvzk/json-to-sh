@@ -33,8 +33,8 @@ impl fmt::Display for ShellVar<'_> {
 }
 
 impl parser::Value {
-    fn traverse<F>(self, namespace: String, f: &F)
-        where F: Fn(ShellVar) -> (),
+    fn traverse<F>(self, namespace: String, f: &mut F)
+        where F: FnMut(ShellVar) -> (),
     {
         use parser::Value;
         match self {
@@ -68,7 +68,7 @@ fn main() -> Result<(), io::Error> {
 
     let mut stdout = io::stdout();
     for v in p {
-        v.traverse("root".to_string(), &|var| {
+        v.traverse("root".to_string(), &mut |var| {
             stdout.write(var.to_string().as_bytes());
         });
     }

@@ -1,5 +1,4 @@
 use super::lexer;
-use std::collections::HashMap;
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum Value {
