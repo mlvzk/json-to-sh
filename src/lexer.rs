@@ -65,7 +65,7 @@ impl<'a> Iterator for Lexer<'a> {
                 let text = eat_string(&mut self.chars)?;
                 Some(Token::Value(Value::Text(text)))
             }
-            '-' | '0'...'9' => {
+            '-' | '0'..='9' => {
                 let num = eat_number(&mut self.chars)?;
                 Some(Token::Value(Value::Number(num)))
             }
@@ -112,7 +112,7 @@ fn eat_number(chars: &mut Peekable<Chars>) -> Option<f64> {
 
     while let Some(&c) = chars.peek() {
         match c {
-            '0'...'9' => s.push(c),
+            '0'..='9' => s.push(c),
             '.' => s.push(c),
             'e' => s.push(c),
             '-' | '+' => s.push(c),

@@ -3,7 +3,7 @@ use std::collections::HashMap;
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum Value {
-    Object(HashMap<String, Value>),
+    Object(Vec<(String, Value)>),
     Array(Vec<Value>),
     Text(String),
     Number(f64),
@@ -49,8 +49,8 @@ where
         }
     }
 
-    fn eat_object(&mut self) -> Option<HashMap<String, Value>> {
-        let mut hm: HashMap<String, Value> = HashMap::new();
+    fn eat_object(&mut self) -> Option<Vec<(String, Value)>> {
+        let mut v: Vec<(String, Value)> = vec![];
 
         while let Some(token) = self.tokens.next() {
             match token {
@@ -58,7 +58,7 @@ where
                 lexer::Token::Comma => continue,
                 lexer::Token::Value(lexer::Value::Text(text)) => {
                     if let Some(lexer::Token::Colon) = self.tokens.next() {
-                        hm.insert(text, self.next()?);
+                        v.push((text, self.next()?));
                     } else {
                         unimplemented!();
                     }
@@ -67,7 +67,7 @@ where
             }
         }
 
-        Some(hm)
+        Some(v)
     }
 
     fn eat_array(&mut self) -> Option<Vec<Value>> {
@@ -138,11 +138,11 @@ mod tests {
             Token::RBrace,
         ];
 
-        let mut hm = HashMap::new();
-        hm.insert("key1".to_owned(), Value::True);
-        hm.insert("key2".to_owned(), Value::Object(HashMap::new()));
-        let output = vec![Value::Object(hm)];
+        let mut v = vec![];
+        v.push(("key1".to_owned(), Value::True));
+        v.push(("key2".to_owned(), Value::Object(vec![])));
+        let expected = vec![Value::Object(v)];
 
-        assert_parser!(input, output);
+        assert_parser!(input, expected);
     }
 }
