@@ -44,10 +44,8 @@ impl parser::Value {
             Value::False => f(ShellVar::new(&namespace, "false")),
             Value::Null => f(ShellVar::new(&namespace, "null")),
             Value::Array(arr) => {
-                let mut i = 0;
-                for v in arr {
+                for (i, v) in arr.into_iter().enumerate() {
                     v.traverse(format!("{}_{}", namespace, i), f);
-                    i += 1;
                 }
             }
             Value::Object(obj) => {
@@ -69,7 +67,7 @@ fn main() -> Result<(), io::Error> {
     let mut stdout = io::stdout();
     for v in p {
         v.traverse("root".to_string(), &mut |var| {
-            stdout.write(var.to_string().as_bytes());
+            stdout.write_all(var.to_string().as_bytes()).unwrap();
         });
     }
 

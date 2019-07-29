@@ -49,7 +49,7 @@ where
     }
 
     fn eat_object(&mut self) -> Option<Vec<(String, Value)>> {
-        let mut v: Vec<(String, Value)> = vec![];
+        let mut v: Vec<(String, Value)> = Vec::with_capacity(10);
 
         while let Some(token) = self.tokens.next() {
             match token {
@@ -70,7 +70,7 @@ where
     }
 
     fn eat_array(&mut self) -> Option<Vec<Value>> {
-        let mut v: Vec<Value> = vec![];
+        let mut v: Vec<Value> = Vec::with_capacity(10);
 
         while let Some(token) = self.tokens.next() {
             match token {
