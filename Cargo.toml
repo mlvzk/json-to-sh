@@ -5,3 +5,4 @@ authors = ["mlvzk <mlvzk@protonmail.com>"]
 edition = "2018"
 
 [dependencies]
+streaming-iterator = "0.1.4"

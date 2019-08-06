@@ -1,6 +1,6 @@
 use super::lexer;
 
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, PartialEq)]
 pub enum Value {
     Object(Vec<(String, Value)>),
     Array(Vec<Value>),
@@ -80,7 +80,7 @@ where
             }
         }
 
-        Some(v.to_vec())
+        Some(v)
     }
 }
 
