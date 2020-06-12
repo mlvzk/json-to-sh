@@ -6,3 +6,4 @@ edition = "2018"
 
 [dependencies]
 streaming-iterator = "0.1.4"
+lexical = { version = "5.2", features = ["trim_floats"] }
